@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование ответа{% endblock %}
+
+{% block content %}
+    <div class="auth-card">
+        <h2>Редактирование ответа</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger small">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'theme_detail' object.theme.pk %}" class="btn btn-outline-secondary">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

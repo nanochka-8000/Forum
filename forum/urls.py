@@ -14,4 +14,7 @@ urlpatterns = [
     path('theme/<int:pk>/delete/', views.ThemeDeleteView.as_view(), name='theme_delete'),
 
     path('theme/<int:theme_pk>/answer/', views.AnswerCreateView.as_view(), name='answer_create'),
+
+    path('answer/<int:pk>/edit/', views.AnswerUpdateView.as_view(), name='answer_update'),
+    path('answer/<int:pk>/delete/', views.AnswerDeleteView.as_view(), name='answer_delete'),
 ]

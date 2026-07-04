@@ -38,16 +38,24 @@ class ThemeListView(ListView):
     model = Theme
     template_name = 'forum/home.html'
     context_object_name = 'themes'
+    paginate_by = 5
 
 
 class ThemeDetailView(DetailView):
     model = Theme
     template_name = 'forum/theme_detail.html'
     context_object_name = 'theme'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
+        from django.core.paginator import Paginator
         context = super().get_context_data(**kwargs)
-        context['answers'] = self.object.answers.all()
+        answers_qs = self.object.answers.all()
+        paginator = Paginator(answers_qs, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
+        context['answers'] = context['page_obj'].object_list
+        context['is_paginated'] = context['page_obj'].has_other_pages()
         context['form'] = AnswerForm()
         return context
 
@@ -94,3 +102,19 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         return redirect('theme_detail', pk=self.kwargs['theme_pk'])
+
+class AnswerUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
+    model = Answer
+    form_class = AnswerForm
+    template_name = 'forum/answer_form.html'
+
+    def get_success_url(self):
+        return reverse('theme_detail', kwargs={'pk': self.object.theme.pk})
+
+
+class AnswerDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
+    model = Answer
+    template_name = 'forum/answer_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('theme_detail', kwargs={'pk': self.object.theme.pk})

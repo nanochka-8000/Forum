@@ -163,3 +163,17 @@ body {
 .answer-form-box h4 {
     margin-bottom: 1rem;
 }
+
+.pagination-nav {
+    margin-top: 1.5rem;
+}
+
+.answer-msgcount {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.answer-actions .btn {
+    margin-right: 0.25rem;
+}

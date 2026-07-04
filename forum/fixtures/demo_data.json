@@ -1,0 +1,178 @@
+[
+  {
+    "model": "forum.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$dummyhash",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "Viktor_99",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-07T10:00:00Z",
+      "avatar": "avatars/default.png",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "forum.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$dummyhash",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "Oleg",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-05T10:00:00Z",
+      "avatar": "avatars/default.png",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "forum.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$dummyhash",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "Yuri",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-09-05T10:00:00Z",
+      "avatar": "avatars/default.png",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "forum.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$dummyhash",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "Mikhail",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-08-02T10:00:00Z",
+      "avatar": "avatars/default.png",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 1,
+    "fields": {
+      "title": "как выйти и потрогать траву в такую жару?",
+      "content": "подскажите как выйти на улицу? может крема с охлождением или вентилятор",
+      "author": 2,
+      "created_at": "2026-09-07T10:00:00Z"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 2,
+    "fields": {
+      "title": "тредс это бишкекский твиттер?",
+      "content": "кидайте свои мысли про тредс",
+      "author": 3,
+      "created_at": "2026-09-05T10:00:00Z"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 3,
+    "fields": {
+      "title": "рисование графики",
+      "content": "графика это реально искусство или художники просто угорают?",
+      "author": 4,
+      "created_at": "2026-09-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 4,
+    "fields": {
+      "title": "Шьём выпускное платье из остатков",
+      "content": "Делюсь опытом пошива платья",
+      "author": 5,
+      "created_at": "2026-08-02T10:00:00Z"
+    }
+  },
+  {
+    "model": "forum.theme",
+    "pk": 5,
+    "fields": {
+      "title": "kendrick легенда",
+      "content": "посоветуйте треки",
+      "author": 5,
+      "created_at": "2026-06-02T10:00:00Z"
+    }
+  },
+  {
+    "model": "forum.answer",
+    "pk": 1,
+    "fields": {
+      "theme": 1,
+      "author": 3,
+      "content": "вышел новый spf от make:prem который охлаждает кожу на 3-4 градуса. очен советую",
+      "created_at": "2026-09-07T12:30:00Z"
+    }
+  },
+  {
+    "model": "forum.answer",
+    "pk": 2,
+    "fields": {
+      "theme": 1,
+      "author": 4,
+      "content": "лучше просто сиди дома под кондеем",
+      "created_at": "2026-09-07T14:54:00Z"
+    }
+  },
+  {
+    "model": "forum.answer",
+    "pk": 3,
+    "fields": {
+      "theme": 1,
+      "author": 5,
+      "content": "построй бассейн с компом и сиди",
+      "created_at": "2026-09-07T17:20:00Z"
+    }
+  },
+  {
+    "model": "forum.answer",
+    "pk": 4,
+    "fields": {
+      "theme": 2,
+      "author": 4,
+      "content": "тредс это приемный ребенок 4chan",
+      "created_at": "2026-09-05T15:00:00Z"
+    }
+  },
+  {
+    "model": "forum.answer",
+    "pk": 5,
+    "fields": {
+      "theme": 3,
+      "author": 2,
+      "content": "люди которые не разбираются в искусстве реально думают что графика это просто каляки или они угорают?",
+      "created_at": "2026-09-02T09:00:00Z"
+    }
+  }
+]

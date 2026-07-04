@@ -15,6 +15,9 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    def messages_count(self):
+        return self.answers.count()
+
 
 class Theme(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')

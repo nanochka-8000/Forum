@@ -32,15 +32,24 @@
                         <img src="{{ answer.author.avatar.url }}" alt="{{ answer.author.username }}">
                     {% endif %}
                     <div class="answer-author">{{ answer.author.username }}</div>
+                    <div class="answer-msgcount">сообщений: {{ answer.author.messages_count }}</div>
                 </div>
                 <div class="answer-body">
                     <div class="answer-date">{{ answer.created_at|date:"d.m.Y H:i" }}</div>
                     <div class="answer-content">{{ answer.content|linebreaksbr }}</div>
+                    {% if user == answer.author %}
+                        <div class="answer-actions mt-2">
+                            <a href="{% url 'answer_update' answer.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                            <a href="{% url 'answer_delete' answer.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% empty %}
             <div class="empty-state">Пока нет ответов.</div>
         {% endfor %}
+
+        {% include 'forum/_pagination.html' %}
     </div>
 
     {% if user.is_authenticated %}
@@ -57,4 +66,5 @@
             <a href="{% url 'login' %}">Войдите</a>, чтобы оставить ответ.
         </div>
     {% endif %}
+
 {% endblock %}
