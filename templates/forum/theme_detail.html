@@ -7,7 +7,7 @@
         <h2>{{ theme.title }}</h2>
         <div class="theme-meta">
             <span>{{ theme.created_at|date:"d.m.Y" }}</span>
-            <span class="author-link">{{ theme.author.username }}</span>
+            <a href="{% url 'profile' theme.author.username %}" class="author-link">{{ theme.author.username }}</a>
         </div>
         {% if user == theme.author %}
             <div class="theme-actions mt-2">
@@ -28,10 +28,14 @@
         {% for answer in answers %}
             <div class="answer-item">
                 <div class="answer-avatar">
-                    {% if answer.author.avatar %}
-                        <img src="{{ answer.author.avatar.url }}" alt="{{ answer.author.username }}">
-                    {% endif %}
-                    <div class="answer-author">{{ answer.author.username }}</div>
+                    <a href="{% url 'profile' answer.author.username %}">
+                        {% if answer.author.avatar %}
+                            <img src="{{ answer.author.avatar.url }}" alt="{{ answer.author.username }}">
+                        {% endif %}
+                    </a>
+                    <div class="answer-author">
+                        <a href="{% url 'profile' answer.author.username %}">{{ answer.author.username }}</a>
+                    </div>
                     <div class="answer-msgcount">сообщений: {{ answer.author.messages_count }}</div>
                 </div>
                 <div class="answer-body">

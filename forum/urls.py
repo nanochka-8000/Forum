@@ -8,6 +8,9 @@ urlpatterns = [
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', views.UserLogoutView.as_view(), name='logout'),
 
+    path('cabinet/', views.CabinetRedirectView.as_view(), name='cabinet'),
+    path('profile/<str:username>/', views.ProfileView.as_view(), name='profile'),
+
     path('theme/create/', views.ThemeCreateView.as_view(), name='theme_create'),
     path('theme/<int:pk>/', views.ThemeDetailView.as_view(), name='theme_detail'),
     path('theme/<int:pk>/edit/', views.ThemeUpdateView.as_view(), name='theme_update'),

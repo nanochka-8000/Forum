@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView, TemplateView
 from .forms import RegisterForm, LoginForm, ThemeForm, AnswerForm
 from .models import User, Theme, Answer
 
@@ -118,3 +118,26 @@ class AnswerDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('theme_detail', kwargs={'pk': self.object.theme.pk})
+
+class ProfileView(DetailView):
+    model = User
+    template_name = 'forum/profile.html'
+    context_object_name = 'profile_user'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+
+    def get_context_data(self, **kwargs):
+        from django.core.paginator import Paginator
+        context = super().get_context_data(**kwargs)
+        themes_qs = self.object.themes.all()
+        paginator = Paginator(themes_qs, 5)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
+        context['themes'] = context['page_obj'].object_list
+        context['is_paginated'] = context['page_obj'].has_other_pages()
+        return context
+
+
+class CabinetRedirectView(LoginRequiredMixin, TemplateView):
+    def get(self, request, *args, **kwargs):
+        return redirect('profile', username=request.user.username)
