@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from .models import User
 
 
@@ -20,6 +20,7 @@ class RegisterView(CreateView):
 
 class UserLoginView(LoginView):
     template_name = 'registration/login.html'
+    authentication_form = LoginForm
     redirect_authenticated_user = True
 
 

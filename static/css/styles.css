@@ -1,0 +1,63 @@
+body {
+    background-color: #fafafa;
+}
+
+/*NAVBAR*/
+.navbar-brand {
+    font-weight: 600;
+}
+
+.navbar .btn-link {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    color: rgba(0, 0, 0, 0.55);
+    border: none;
+}
+
+.navbar .btn-link:hover {
+    color: rgba(0, 0, 0, 0.75);
+}
+
+/*LOGIN*/
+.auth-card {
+    max-width: 480px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.auth-card h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/*THEMES*/
+.theme-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+}
+
+.theme-row a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.theme-row a:hover {
+    text-decoration: underline;
+}
+
+.theme-row .theme-title {
+    font-weight: 500;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #888;
+}
