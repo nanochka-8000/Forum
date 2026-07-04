@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление темы{% endblock %}
+
+{% block content %}
+    <div class="auth-card">
+        <h2>Удалить тему?</h2>
+        <p>Вы уверены, что хотите удалить тему «{{ object.title }}»?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить</button>
+            <a href="{% url 'theme_detail' object.pk %}" class="btn btn-outline-secondary">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

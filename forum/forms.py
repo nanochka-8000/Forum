@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User
+from .models import Theme, Answer
 
 
 class RegisterForm(UserCreationForm):
@@ -24,3 +25,25 @@ class LoginForm(AuthenticationForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+class ThemeForm(forms.ModelForm):
+    class Meta:
+        model = Theme
+        fields = ('title', 'content')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 6}),
+        }
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ('content',)
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Ваш ответ...'
+            }),
+        }
+        labels = {'content': ''}

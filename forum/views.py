@@ -1,9 +1,12 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from .forms import RegisterForm, LoginForm
-from .models import User
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from .forms import RegisterForm, LoginForm, ThemeForm, AnswerForm
+from .models import User, Theme, Answer
+
 
 
 class RegisterView(CreateView):
@@ -17,12 +20,77 @@ class RegisterView(CreateView):
         login(self.request, self.object)
         return response
 
-
 class UserLoginView(LoginView):
     template_name = 'registration/login.html'
     authentication_form = LoginForm
     redirect_authenticated_user = True
 
-
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('home')
+
+class AuthorRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+
+class ThemeListView(ListView):
+    model = Theme
+    template_name = 'forum/home.html'
+    context_object_name = 'themes'
+
+
+class ThemeDetailView(DetailView):
+    model = Theme
+    template_name = 'forum/theme_detail.html'
+    context_object_name = 'theme'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['answers'] = self.object.answers.all()
+        context['form'] = AnswerForm()
+        return context
+
+
+class ThemeCreateView(LoginRequiredMixin, CreateView):
+    model = Theme
+    form_class = ThemeForm
+    template_name = 'forum/theme_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('theme_detail', kwargs={'pk': self.object.pk})
+
+
+class ThemeUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
+    model = Theme
+    form_class = ThemeForm
+    template_name = 'forum/theme_form.html'
+
+    def get_success_url(self):
+        return reverse('theme_detail', kwargs={'pk': self.object.pk})
+
+
+class ThemeDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
+    model = Theme
+    template_name = 'forum/theme_confirm_delete.html'
+    success_url = reverse_lazy('home')
+
+
+class AnswerCreateView(LoginRequiredMixin, CreateView):
+    model = Answer
+    form_class = AnswerForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.theme = get_object_or_404(Theme, pk=self.kwargs['theme_pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('theme_detail', kwargs={'pk': self.kwargs['theme_pk']})
+
+    def get(self, request, *args, **kwargs):
+        return redirect('theme_detail', pk=self.kwargs['theme_pk'])

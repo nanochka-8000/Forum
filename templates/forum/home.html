@@ -4,7 +4,19 @@
 
 {% block content %}
     <h1 class="mb-4 text-center">Темы</h1>
-    <div class="empty-state">
-        Список тем появится здесь.
+
+    <div class="themes-list">
+        {% for theme in themes %}
+            <a href="{% url 'theme_detail' theme.pk %}" class="theme-row-link">
+                <div class="theme-row">
+                    <div class="theme-title">{{ theme.title }}</div>
+                    <div>{{ theme.created_at|date:"d.m.Y" }}</div>
+                    <div>{{ theme.author.username }}</div>
+                    <div>ответов {{ theme.answers_count }}</div>
+                </div>
+            </a>
+        {% empty %}
+            <div class="empty-state">Пока нет ни одной темы.</div>
+        {% endfor %}
     </div>
 {% endblock %}
