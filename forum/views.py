@@ -28,10 +28,13 @@ class UserLoginView(LoginView):
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('home')
 
-class AuthorRequiredMixin(UserPassesTestMixin):
+class AuthorOrModeratorMixin(UserPassesTestMixin):
     def test_func(self):
         obj = self.get_object()
-        return obj.author == self.request.user
+        user = self.request.user
+        is_author = obj.author == user
+        is_moderator = user.groups.filter(name='Moderators').exists()
+        return is_author or is_moderator
 
 
 class ThemeListView(ListView):
@@ -73,7 +76,7 @@ class ThemeCreateView(LoginRequiredMixin, CreateView):
         return reverse('theme_detail', kwargs={'pk': self.object.pk})
 
 
-class ThemeUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
+class ThemeUpdateView(LoginRequiredMixin, AuthorOrModeratorMixin, UpdateView):
     model = Theme
     form_class = ThemeForm
     template_name = 'forum/theme_form.html'
@@ -82,7 +85,7 @@ class ThemeUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
         return reverse('theme_detail', kwargs={'pk': self.object.pk})
 
 
-class ThemeDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
+class ThemeDeleteView(LoginRequiredMixin, AuthorOrModeratorMixin, DeleteView):
     model = Theme
     template_name = 'forum/theme_confirm_delete.html'
     success_url = reverse_lazy('home')
@@ -103,7 +106,7 @@ class AnswerCreateView(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         return redirect('theme_detail', pk=self.kwargs['theme_pk'])
 
-class AnswerUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
+class AnswerUpdateView(LoginRequiredMixin, AuthorOrModeratorMixin, UpdateView):
     model = Answer
     form_class = AnswerForm
     template_name = 'forum/answer_form.html'
@@ -112,7 +115,7 @@ class AnswerUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
         return reverse('theme_detail', kwargs={'pk': self.object.theme.pk})
 
 
-class AnswerDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
+class AnswerDeleteView(LoginRequiredMixin, AuthorOrModeratorMixin, DeleteView):
     model = Answer
     template_name = 'forum/answer_confirm_delete.html'
 

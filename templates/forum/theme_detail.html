@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load forum_extras %}
+
 {% block title %}{{ theme.title }}{% endblock %}
 
 {% block content %}
@@ -9,7 +11,7 @@
             <span>{{ theme.created_at|date:"d.m.Y" }}</span>
             <a href="{% url 'profile' theme.author.username %}" class="author-link">{{ theme.author.username }}</a>
         </div>
-        {% if user == theme.author %}
+        {% if user == theme.author or user|is_moderator %}
             <div class="theme-actions mt-2">
                 <a href="{% url 'theme_update' theme.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
                 <a href="{% url 'theme_delete' theme.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
@@ -41,7 +43,7 @@
                 <div class="answer-body">
                     <div class="answer-date">{{ answer.created_at|date:"d.m.Y H:i" }}</div>
                     <div class="answer-content">{{ answer.content|linebreaksbr }}</div>
-                    {% if user == answer.author %}
+                    {% if user == answer.author or user|is_moderator %}
                         <div class="answer-actions mt-2">
                             <a href="{% url 'answer_update' answer.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
                             <a href="{% url 'answer_delete' answer.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
